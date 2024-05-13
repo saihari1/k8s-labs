@@ -1,0 +1,10 @@
+---
+# cluster_name is used to group the nodes in a folder within VirtualBox:
+cluster_name: minikube Cluster
+nodes:
+  minikubenode:
+    cpu: 2
+    memory: 4096
+software:
+  box: bento/ubuntu-22.04
+  os: xUbuntu_22.04
