@@ -1,0 +1,32 @@
+require "yaml"
+vagrant_root = File.dirname(File.expand_path(__FILE__))
+settings = YAML.load_file "#{vagrant_root}/settings.yaml"
+
+Vagrant.configure("2") do |config|
+  config.vm.provision "shell", inline: <<-SHELL
+      apt-get update -y
+  SHELL
+
+  if `uname -m`.strip == "aarch64"
+    config.vm.box = settings["software"]["box"] + "-arm64"
+  else
+    config.vm.box = settings["software"]["box"]
+  end
+  config.vm.box_check_update = true
+
+  config.vm.define "minikubenode" do |controlplane|
+    controlplane.vm.hostname = "minikube"
+    controlplane.vm.provider "virtualbox" do |vb|
+      vb.cpus = settings["nodes"]["minikubenode"]["cpu"]
+      vb.memory = settings["nodes"]["minikubenode"]["memory"]
+      if settings["cluster_name"] and settings["cluster_name"] != ""
+        vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
+      end
+    end
+    controlplane.vm.provision "shell",
+      env: {
+        "OS" => settings["software"]["os"]
+      },
+      path: "scripts/install.sh"
+  end    
+end
