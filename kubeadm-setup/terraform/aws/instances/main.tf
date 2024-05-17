@@ -9,7 +9,7 @@ module "ec2_instance" {
   ami_id         = var.ami_id
   instance_type  = "t2.medium"
   key_name       = "k8s-keypair"
-  subnet_ids     = var.subnet_id
+  subnet_ids     = var.subnet_ids
   instance_count = 3
 
   inbound_from_port  = ["0", "6443", "22", "30000"]
