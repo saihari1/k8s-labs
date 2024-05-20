@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mywebserver
+  labels: 
+    app: httpd
+spec:
+  replicas: 10
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 4
+  selector:
+    matchLabels: 
+      app: httpd
+  template: 
+    metadata:
+      labels: 
+        app: httpd
+    spec: 
+      containers:
+        - name: myhttpd:2
+          image: httpd
+          ports:
+            - containerPort: 80  
