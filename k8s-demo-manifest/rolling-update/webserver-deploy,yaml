@@ -20,7 +20,7 @@ spec:
         app: httpd
     spec: 
       containers:
-        - name: myhttpd:2
-          image: httpd
+        - name: myhttpd
+          image: httpd:2
           ports:
             - containerPort: 80  
