@@ -1,41 +1,77 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myweb-dep
+  name: web
   labels: 
-    app: httpd
+    app: web1
 spec:
-  replicas: 2
+  replicas: 1 
   selector:
     matchLabels: 
-      app: httpd
+      app: dep1
   template: 
     metadata:
       labels: 
-        app: httpd
+        app: dep1
     spec: 
       containers:
-        - name: myhttpd
-          image: httpd
+        - name: helloapp
+          image: gcr.io/google-samples/hello-app:1.0
           ports:
-            - containerPort: 80  
+            - containerPort: 8080 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web2
+  labels: 
+    app: web2
+spec:
+  replicas: 1 
+  selector:
+    matchLabels: 
+      app: dep2
+  template: 
+    metadata:
+      labels: 
+        app: dep2
+    spec: 
+      containers:
+        - name: helloapp
+          image: gcr.io/google-samples/hello-app:2.0
+          ports:
+            - containerPort: 8080 
 ---
 apiVersion: v1  
 kind: Service
 metadata:
-  name: myweb-svc
+  name: web
 spec:
   selector:
-    app: httpd
+    app: dep1
+  type: NodePort
   ports:
-    - port: 80 
+    - port: 8080
+      nodePort: 31637 
+---
+apiVersion: v1  
+kind: Service
+metadata:
+  name: web2
+spec:
+  selector:
+    app: dep2
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 31640
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: httpd-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
     - host: minikube-example.com
@@ -45,6 +81,13 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: myweb-svc
+              name: web
               port:
-                number: 80
+                number: 8080
+        - path: /v2
+          pathType: Prefix
+          backend:
+            service:
+              name: web2
+              port:
+                number: 8080
