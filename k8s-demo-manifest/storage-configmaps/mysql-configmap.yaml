@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-mysql
+  labels:
+    app: mysqldb
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysqldb
+  template:  
+    metadata:
+      name: mysqlpod
+      labels:
+        app: mysqldb
+    spec:
+      volumes: 
+        - name: mysql-initdb-vol
+          configMap:
+            name: mysql-initdb-config
+      containers: 
+        - name: mysqldb
+          image: mysql
+          env:
+            - name: MYSQL_DATABASE
+              value: mydb
+            - name: MYSQL_ROOT_PASSWORD
+              value: test1234
+            - name: MYSQL_ROOT_HOST
+              value: '%'
+          volumeMounts:
+            - name:  mysql-initdb-vol
+              mountPath: /docker-entrypoint-initdb.d
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+  labels: 
+    app: mysqldb
+spec:
+  selector:
+    app: mysqldb
+  type: NodePort
+  ports: 
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30287
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  initdb.sql:
+    use mdbb;
+    create table empid(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    name varchar(20)
+    );
+    create table emporg(
+    id int AUTO_INCREMENT PRIMARY KEY,
+    orgname varchar(20)
+    );
+  keys:
+    123456gg
+    abcdef 
