@@ -21,7 +21,7 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: demo-vol
-              mountPath: /etc
+              mountPath: /data
       volumes:
         - name: demo-vol
           hostPath:
