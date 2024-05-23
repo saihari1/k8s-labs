@@ -1,3 +1,7 @@
+#tag the resources as below for all the 
+kubernetes.io/cluster/<cluster-name>:shared
+kubernetes.io/role/elb:1
+
 # install eksctl
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
