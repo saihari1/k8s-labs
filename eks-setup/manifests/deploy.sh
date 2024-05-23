@@ -11,6 +11,7 @@ eksctl create iamserviceaccount \
   --name=aws-load-balancer-controller \
   --role-name AmazonEKSLoadBalancerControllerRole \
   --attach-policy-arn=arn:aws:iam::<your-aws-account-id>:policy/AWSLoadBalancerControllerIAMPolicy \
+  --region=us-east-1
   --approve
 
 helm repo add eks https://aws.github.io/eks-charts
