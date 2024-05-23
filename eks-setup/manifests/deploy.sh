@@ -1,8 +1,11 @@
-#The running ALB controller requires access to AWS resources, necessitating integration with IAM (Identity and Access Management).
-eksctl utils associate-iam-oidc-provider --cluster test-cluster --region=us-east-1 --approve
+#download the iam policy
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
 
 #create a iam policy
-aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document iam_policy.json
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
+
+#The running ALB controller requires access to AWS resources, necessitating integration with IAM (Identity and Access Management).
+eksctl utils associate-iam-oidc-provider --cluster eks-cluster --region=us-east-1 --approve
 
 #Then create a role with the below command
 eksctl create iamserviceaccount \
@@ -10,7 +13,7 @@ eksctl create iamserviceaccount \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
   --role-name AmazonEKSLoadBalancerControllerRole \
-  --attach-policy-arn=arn:aws:iam::801211930675:policy/AWSLoadBalancerControllerIAMPolicy \
+  --attach-policy-arn=arn:aws:iam::<AWS-Accid#>:policy/AWSLoadBalancerControllerIAMPolicy \
   --region=us-east-1 \
   --override-existing-serviceaccounts \
   --approve 
@@ -31,5 +34,11 @@ kubectl get deployment -n kube-system aws-load-balancer-controller -w
 kubectl describe deployment aws-load-balancer-controller
 kubectl get pods -A
 
+#deploy 2048 game
+curl -o https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
+kubectl apply -f 2048_full.yaml
+
 #if you get the ingress, you can see the address
-kubectl get ingress -n game-2048-1
+kubectl describe svc -n game-2048
+kubectl get ingress -n game-2048
+kubectl describe ingress ingress-2048 -n game-2048
