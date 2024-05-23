@@ -1,5 +1,5 @@
 #The running ALB controller requires access to AWS resources, necessitating integration with IAM (Identity and Access Management).
-eksctl utils associate-iam-oidc-provider --cluster test-cluster --approve
+eksctl utils associate-iam-oidc-provider --cluster test-cluster --region=us-east-1 --approve
 
 #create a iam policy
 aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document iam_policy.json
