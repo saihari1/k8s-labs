@@ -32,7 +32,7 @@ helm repo add eks https://aws.github.io/eks-charts
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=eks-cluster -n kube-system
 
 # to cleanup resources, run 
-'eksctl delete cluster --region=us-east-1 --name=eks-cluster'
+eksctl delete cluster --region=us-east-1 --name=eks-cluster
 
 
 
