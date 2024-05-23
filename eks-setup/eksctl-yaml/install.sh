@@ -27,10 +27,6 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 helm version
 
-# install aws lb controller
-helm repo add eks https://aws.github.io/eks-charts
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=eks-cluster -n kube-system
-
 # to cleanup resources, run 
 eksctl delete cluster --region=us-east-1 --name=eks-cluster
 
