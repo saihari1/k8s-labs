@@ -1,4 +1,4 @@
-#tag the resources as below for all the 
+#tag the public subnets as below
 kubernetes.io/cluster/<cluster-name>:shared
 kubernetes.io/role/elb:1
 
