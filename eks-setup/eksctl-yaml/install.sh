@@ -3,6 +3,11 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/d
 sudo mv /tmp/eksctl /usr/local/bin
 eksctl version
 
+#install aws cli from below location
+# https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+sudo yum remove awscli
+aws --version
+
 # deploy the cluster using the yaml file
 eksctl create cluster -f eks-cluster.yaml
 
