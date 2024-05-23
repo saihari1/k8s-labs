@@ -21,6 +21,16 @@ eksctl create cluster -f eks-cluster.yaml
 
 aws eks update-kubeconfig --region us-east-1 --name eks-cluster
 
+# on Amazon Linux2 install helm as follows
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm version
+
+# install aws lb controller
+helm repo add eks https://aws.github.io/eks-charts
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=eks-cluster -n kube-system
+
 # to cleanup resources, run 
 'eksctl delete cluster --region=us-east-1 --name=eks-cluster'
 
