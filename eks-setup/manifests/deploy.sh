@@ -42,3 +42,5 @@ kubectl apply -f 2048_full.yaml
 kubectl describe svc -n game-2048
 kubectl get ingress -n game-2048
 kubectl describe ingress ingress-2048 -n game-2048
+
+helm delete aws-alb-ingress-controller -n kube-system
