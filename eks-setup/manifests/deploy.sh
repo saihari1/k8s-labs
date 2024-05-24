@@ -30,7 +30,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set vpcId=vpc-09dadd9e423c04f91
 
 # verify
-kubectl get deployment -n kube-system aws-load-balancer-controller -w
+kubectl get deployment -n kube-system aws-load-balancer-controller
 kubectl describe deployment aws-load-balancer-controller
 kubectl get pods -A
 
