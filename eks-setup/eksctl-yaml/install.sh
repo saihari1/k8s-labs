@@ -1,5 +1,5 @@
 #tag the public subnets as below
-kubernetes.io/cluster/<cluster-name>:shared
+kubernetes.io/cluster/<B2B>:shared
 kubernetes.io/role/elb:1
 
 #Make sure auto-assign ip settings is enabled
@@ -25,9 +25,9 @@ echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 kubectl version --client
 
 # deploy the cluster using the yaml file
-eksctl create cluster -f eks-cluster.yaml
+eksctl create cluster -f B2B.yaml
 
-aws eks update-kubeconfig --region us-east-1 --name eks-cluster
+aws eks update-kubeconfig --region ap-southeast-2 --name B2B
 
 # on Amazon Linux2 install helm as follows
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -36,7 +36,7 @@ chmod 700 get_helm.sh
 helm version
 
 # to cleanup resources, run 
-eksctl delete cluster --region=us-east-1 --name=eks-cluster
+#eksctl delete cluster --region=ap-southeast-2 --name=B2B
 
 
 
