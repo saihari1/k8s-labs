@@ -2,30 +2,30 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: eks-cluster
-  region: us-east-1
+  name: B2B
+  region: ap-southeast-2
 
 vpc:
-  id: "vpc-09dadd9e423c04f91"
+  id: "vpc-0625296b14616a368"
   cidr: "172.31.0.0/16"
   subnets:
     public:
-      us-east-1b: { id: subnet-096b78110a39a544e }
-      us-east-1f: { id: subnet-01483b41d7300ff42 }
-      us-east-1c: { id: subnet-0875226995de36cf2 }
+      ap-southeast-2a: { id: 	subnet-0b532be25057083a5 }
+      ap-southeast-2b: { id: 	subnet-05826c870daa8606a }
+      ap-southeast-2c: { id:  subnet-0fa49bd1dfa5be4a4 }
 
 managedNodeGroups:
-  - name: ng-db
+  - name: node1
     instanceType: t3.small
     labels: { role: builders }
     minSize: 2
     maxSize: 4
     ssh: 
       allow: true
-      publicKeyName: k8s-keypair
+      publicKeyName: new
     tags:
-      Name: ng-db
-  - name: ng-spot
+      Name: node1
+  - name: spot1
     instanceType: t3.small
     labels: { role: builders }
     minSize: 1
@@ -33,6 +33,6 @@ managedNodeGroups:
     spot: true
     ssh: 
       allow: true
-      publicKeyName: k8s-keypair
+      publicKeyName: new
     tags:
-      Name: ng-spot
+      Name: spot1
